@@ -248,7 +248,7 @@ void interaction(int duration, int num_args, int opt_list[])
         if (perf_lock_acq) {
             lock_handle = perf_lock_acq(lock_handle, duration, opt_list, num_args);
             if (lock_handle == -1)
-                ALOGE("Failed to acquire lock.");
+                ALOGE("%s: Failed to acquire lock.", __func__);
         }
     }
 #endif
@@ -268,7 +268,7 @@ int interaction_with_handle(int lock_handle, int duration, int num_args, int opt
         if (perf_lock_acq) {
             lock_handle = perf_lock_acq(lock_handle, duration, opt_list, num_args);
             if (lock_handle == -1)
-                ALOGE("Failed to acquire lock.");
+                ALOGE("%s: Failed to acquire lock.", __func__);
         }
     }
     return lock_handle;
@@ -288,7 +288,8 @@ int perf_hint_enable(int hint_id , int duration)
         if (perf_hint) {
             lock_handle = perf_hint(hint_id, NULL, duration, -1);
             if (lock_handle == -1)
-                ALOGE("Failed to acquire lock.");
+                ALOGE("%s Failed to acquire lock for hint_id: %X.",
+                    __func__, hint_id);
         }
     }
     return lock_handle;
@@ -304,7 +305,7 @@ int perf_hint_enable_with_type(int hint_id, int duration, int type)
         if (perf_hint) {
             lock_handle = perf_hint(hint_id, NULL, duration, type);
             if (lock_handle == -1)
-                ALOGE("Failed to acquire lock.");
+                ALOGE("%s: Failed to acquire lock.", __func__);
         }
     }
     return lock_handle;
@@ -323,7 +324,7 @@ int perform_hint_action(int hint_id, int resource_values[], int num_resources)
                 num_resources);
 
         if (lock_handle == -1) {
-            ALOGE("Failed to acquire lock.");
+            ALOGE("%s: Failed to acquire lock.", __func__);
             return -EINVAL;
         }
 
@@ -335,7 +336,7 @@ int perform_hint_action(int hint_id, int resource_values[], int num_resources)
             /* Can't keep track of this lock. Release it. */
             if (perf_lock_rel)
                 perf_lock_rel(lock_handle);
-            ALOGE("Failed to process hint.");
+            ALOGE("%s: Failed to process hint.", __func__);
             return -ENOMEM;
         }
 
@@ -353,7 +354,7 @@ int perform_hint_action(int hint_id, int resource_values[], int num_resources)
             /* Can't keep track of this lock. Release it. */
             if (perf_lock_rel)
                 perf_lock_rel(lock_handle);
-            ALOGE("Failed to process hint.");
+            ALOGE("%s: Failed to process hint.", __func__);
             return -ENOMEM;
         }
     }
